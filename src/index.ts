@@ -7,23 +7,26 @@ export const calculateContrast = (
   const foregroundColor = Color(foreground);
   const backgroundColor = Color(background);
 
-  const foregroundLinear = foregroundColor
-    .rgb()
-    .array()
-    .map((color: number) => {
-      return color <= 0.03928
-        ? color / 12.92
-        : Math.pow((color + 0.055) / 1.055, 2.4);
-    });
+  const foregroundRGB = foregroundColor.rgb().array();
+  const backgroundRGB = backgroundColor.rgb().array();
 
-  const backgroundLinear = backgroundColor
-    .rgb()
-    .array()
-    .map((color: number) => {
-      return color <= 0.03928
-        ? color / 12.92
-        : Math.pow((color + 0.055) / 1.055, 2.4);
-    });
+  const normalizedForegroundRGB = foregroundRGB.map(
+    (color: number) => color / 255
+  );
+  const normalizedBackgroundRGB = backgroundRGB.map(
+    (color: number) => color / 255
+  );
+
+  const foregroundLinear = normalizedForegroundRGB.map((color: number) => {
+    return color <= 0.03928
+      ? color / 12.92
+      : Math.pow((color + 0.055) / 1.055, 2.4);
+  });
+  const backgroundLinear = normalizedBackgroundRGB.map((color: number) => {
+    return color <= 0.03928
+      ? color / 12.92
+      : Math.pow((color + 0.055) / 1.055, 2.4);
+  });
 
   const foregroundLuminance =
     0.2126 * foregroundLinear[0] +
