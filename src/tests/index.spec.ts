@@ -1,4 +1,4 @@
-import { calculateContrast } from '../index';
+import { calculateContrast, meetsWCAG } from '../index';
 import { describe, test, expect } from 'vitest';
 
 describe('calculateContrast', () => {
@@ -77,5 +77,49 @@ describe('calculateContrast', () => {
       expectedRatio,
       1
     );
+  });
+});
+
+describe('meetsWCAG', () => {
+  test('given black text on white background, should meet AA level', () => {
+    const foreground = '#000000';
+    const background = '#FFFFFF';
+
+    expect(meetsWCAG(foreground, background, 'AA')).toBe(true);
+  });
+
+  test('given black text on white background, should meet AAA level', () => {
+    const foreground = '#000000';
+    const background = '#FFFFFF';
+
+    expect(meetsWCAG(foreground, background, 'AAA')).toBe(true);
+  });
+
+  test('given white text on black background, should meet AA level', () => {
+    const foreground = '#FFFFFF';
+    const background = '#000000';
+
+    expect(meetsWCAG(foreground, background, 'AA')).toBe(true);
+  });
+
+  test('given white text on black background, should meet AAA level', () => {
+    const foreground = '#FFFFFF';
+    const background = '#000000';
+
+    expect(meetsWCAG(foreground, background, 'AAA')).toBe(true);
+  });
+
+  test('given low contrast, should not meet AA level', () => {
+    const foreground = '#EEEEEE';
+    const background = '#DDDDDD';
+
+    expect(meetsWCAG(foreground, background, 'AA')).toBe(false);
+  });
+
+  test('given low contrast, should not meet AAA level', () => {
+    const foreground = '#EEEEEE';
+    const background = '#DDDDDD';
+
+    expect(meetsWCAG(foreground, background, 'AAA')).toBe(false);
   });
 });

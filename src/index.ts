@@ -1,4 +1,8 @@
 import Color from 'color';
+import { WCAGLevel } from './wcagLevel';
+
+const AA_CONTRAST = 4.5;
+const AAA_CONTRAST = 7;
 
 export const calculateContrast = (
   foreground: string,
@@ -42,4 +46,21 @@ export const calculateContrast = (
     (Math.min(foregroundLuminance, backgroundLuminance) + 0.05);
 
   return ratio;
+};
+
+export const meetsWCAG = (
+  foreground: string,
+  background: string,
+  level: WCAGLevel = 'AA'
+) => {
+  const contrast = calculateContrast(foreground, background);
+
+  switch (level) {
+    case 'AA':
+      return contrast >= AA_CONTRAST;
+    case 'AAA':
+      return contrast >= AAA_CONTRAST;
+    default:
+      return false;
+  }
 };
