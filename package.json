@@ -7,13 +7,17 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mike3497/color-contrast-ratio.git"
+  },
   "scripts": {
     "build": "tsup",
     "test": "vitest"
   },
   "author": "Michael Carillon",
   "license": "ISC",
-  "description": "",
+  "description": "This library provides functions to calculate the contrast ratio between two colors and determine if the contrast meets the Web Content Accessibility Guidelines (WCAG) requirements.",
   "devDependencies": {
     "@types/color": "^4.2.0",
     "prettier": "3.4.2",
